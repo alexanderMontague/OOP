@@ -5,8 +5,6 @@
 // Portfolio Main Class
 
 import java.util.*;
-import java.io.*;
-import java.text.*;
 
 public class Portfolio {
 	
@@ -81,59 +79,78 @@ public class Portfolio {
 					boolean copyStock = false;
 					boolean inOtherList = false;
 					boolean sameName = false;
+					boolean isNumber = true;
 					
 					System.out.print("Stock Symbol: ");
 					stockSym = s.nextLine();
 					System.out.print("Stock Name: ");
 					stockName = s.nextLine();
 					System.out.print("Stock Quantity: ");
-					stockQty = s.nextDouble();
+					try {
+						stockQty = s.nextDouble();
+					}
+					catch(InputMismatchException e) {
+						isNumber = false;
+						s.nextLine();
+					}
 					System.out.print("Stock Price: ");
-					stockPrice = s.nextDouble();
-					stockBookVal = (stockQty * stockPrice) + 9.99;
-					
-					if(stockList.size() == 0) {
-						sameName = true;
+					try {
+						stockPrice = s.nextDouble();
 					}
-					for(int i = 0; i < stockList.size(); i++) {
-						returnSym = stockList.get(i).getSym();
-						if(stockSym.equals(returnSym)) {
-							inOtherList = true;
-						}
-					}
-					for(int i = 0; i < fundList.size(); i++) {
-						returnSym = fundList.get(i).getSym();
-						if(stockSym.equals(returnSym)) {
-							inOtherList = true;
-						}
-					}
-					for(int i = 0; i < stockList.size(); i++) {
-						returnName = stockList.get(i).getName();
-						if(returnName.equals(stockName) && inOtherList == true) {
-							sameName = true;
-							inOtherList = false;
-						}
-						else if(!returnName.equals(stockName) && inOtherList == false) {
-							sameName = true;
-						}
+					catch(InputMismatchException e) {
+						isNumber = false;
 					}
 					
-					if(inOtherList == false && sameName == true) {
+					if(isNumber == true) {
+					
+						stockBookVal = (stockQty * stockPrice) + 9.99;
+						
+						if(stockList.size() == 0) {
+							sameName = true;
+						}
 						for(int i = 0; i < stockList.size(); i++) {
 							returnSym = stockList.get(i).getSym();
-							returnName = stockList.get(i).getName();
-							if(returnSym.equals(stockSym) && returnName.equals(stockName)) {
-								stockList.get(i).addQuantity(stockQty, stockPrice);
-								copyStock = true;
+							if(stockSym.equals(returnSym)) {
+								inOtherList = true;
 							}
 						}
-						if(copyStock == false) {
-							Stock tempStock = new Stock(stockSym, stockName, stockQty, stockPrice, stockBookVal);
-							stockList.add(tempStock);
+						for(int i = 0; i < fundList.size(); i++) {
+							returnSym = fundList.get(i).getSym();
+							if(stockSym.equals(returnSym)) {
+								inOtherList = true;
+							}
+						}
+						for(int i = 0; i < stockList.size(); i++) {
+							returnName = stockList.get(i).getName();
+							if(returnName.equals(stockName) && inOtherList == true) {
+								sameName = true;
+								inOtherList = false;
+							}
+							else if(!returnName.equals(stockName) && inOtherList == false) {
+								sameName = true;
+							}
+						}
+						
+						if(inOtherList == false && sameName == true) {
+							for(int i = 0; i < stockList.size(); i++) {
+								returnSym = stockList.get(i).getSym();
+								returnName = stockList.get(i).getName();
+								if(returnSym.equals(stockSym) && returnName.equals(stockName)) {
+									stockList.get(i).addQuantity(stockQty, stockPrice);
+									copyStock = true;
+								}
+							}
+							if(copyStock == false) {
+								Stock tempStock = new Stock(stockSym, stockName, stockQty, stockPrice, stockBookVal);
+								stockList.add(tempStock);
+							}
+						}
+						else {
+							System.out.println("Duplicate Symbols are not Allowed.");
 						}
 					}
 					else {
-						System.out.println("Duplicate Symbols are not Allowed.");
+						System.out.println("Enter nummerical values only for Quantity and Price.");
 					}
 				}
 				else if(buyMenu.equals("mf") || buyMenu.equals("mutualfund") || buyMenu.equals("mutual fund") || buyMenu.equals("m")) {
@@ -142,59 +159,78 @@ public class Portfolio {
 					boolean copyFund = false;
 					boolean inOtherList = false;
 					boolean sameName = false;
+					boolean isNumber = true;
 					
 					System.out.print("Mutual Fund Symbol: ");
 					mfSym = s.nextLine();
 					System.out.print("Mutual Fund Name: ");
 					mfName = s.nextLine();
 					System.out.print("Mutual Fund Quantity: ");
-					mfQty = s.nextDouble();
+					try {
+						mfQty = s.nextDouble();
+					}
+					catch(InputMismatchException e) {
+						isNumber = false;
+						s.nextLine();
+					}
 					System.out.print("Mutual Fund Price: ");
-					mfPrice = s.nextDouble();
-					mfBookVal = mfQty * mfPrice;
-					
-					if(fundList.size() == 0) {
-						sameName = true;
+					try {
+						mfPrice = s.nextDouble();
 					}
-					for(int i = 0; i < fundList.size(); i++) {
-						returnSym = fundList.get(i).getSym();
-						if(mfSym.equals(returnSym)) {
-							inOtherList = true;
-						}
-					}
-					for(int i = 0; i < stockList.size(); i++) {
-						returnSym = stockList.get(i).getSym();
-						if(mfSym.equals(returnSym)) {
-							inOtherList = true;
-						}
-					}
-					for(int i = 0; i < fundList.size(); i++) {
-						returnName = fundList.get(i).getName();
-						if(returnName.equals(mfName) && inOtherList == true) {
-							sameName = true;
-							inOtherList = false;
-						}
-						else if(!returnName.equals(mfName) && inOtherList == false) {
-							sameName = true;
-						}
+					catch(InputMismatchException e) {
+						isNumber = false;
 					}
 					
-					if(inOtherList == false && sameName == true) {
+					if(isNumber == true) {
+					
+						mfBookVal = mfQty * mfPrice;
+						
+						if(fundList.size() == 0) {
+							sameName = true;
+						}
 						for(int i = 0; i < fundList.size(); i++) {
 							returnSym = fundList.get(i).getSym();
-							returnName = fundList.get(i).getName();
-							if(returnSym.equals(mfSym) && returnName.equals(mfName)) {
-								fundList.get(i).addQuantity(mfQty, mfPrice);
-								copyFund = true;
+							if(mfSym.equals(returnSym)) {
+								inOtherList = true;
 							}
 						}
-						if(copyFund == false) {
-							MutualFund tempFund = new MutualFund(mfSym, mfName, mfQty, mfPrice, mfBookVal);
-							fundList.add(tempFund);
+						for(int i = 0; i < stockList.size(); i++) {
+							returnSym = stockList.get(i).getSym();
+							if(mfSym.equals(returnSym)) {
+								inOtherList = true;
+							}
+						}
+						for(int i = 0; i < fundList.size(); i++) {
+							returnName = fundList.get(i).getName();
+							if(returnName.equals(mfName) && inOtherList == true) {
+								sameName = true;
+								inOtherList = false;
+							}
+							else if(!returnName.equals(mfName) && inOtherList == false) {
+								sameName = true;
+							}
+						}
+						
+						if(inOtherList == false && sameName == true) {
+							for(int i = 0; i < fundList.size(); i++) {
+								returnSym = fundList.get(i).getSym();
+								returnName = fundList.get(i).getName();
+								if(returnSym.equals(mfSym) && returnName.equals(mfName)) {
+									fundList.get(i).addQuantity(mfQty, mfPrice);
+									copyFund = true;
+								}
+							}
+							if(copyFund == false) {
+								MutualFund tempFund = new MutualFund(mfSym, mfName, mfQty, mfPrice, mfBookVal);
+								fundList.add(tempFund);
+							}
+						}
+						else {
+							System.out.println("Duplicate Symbols are not Allowed.");
 						}
 					}
 					else {
-						System.out.println("Duplicate Symbols are not Allowed.");
+						System.out.println("Enter nummerical values only for Quantity and Price.");
 					}
 				}
 				System.out.println();
@@ -207,78 +243,112 @@ public class Portfolio {
 				double madeMoney = 0;
 				double sellQty = 0;
 				int index = 0;
+				boolean isNumber = true;
 				
 				System.out.println();
 				System.out.println("--- Sell a Stock or Mutual Fund ---");
 				System.out.print("Stock/Fund Symbol: ");
 				sellSym = s.nextLine();
 				System.out.print("Stock/Fund Sell Price: ");
-				sellPrice = s.nextDouble();
+				try {
+					sellPrice = s.nextDouble();
+				}
+				catch(InputMismatchException e) {
+					isNumber = false;
+					s.nextLine();
+				}
 				System.out.print("Quantity to Sell: ");
-				sellQty = s.nextInt();
+				try {
+					sellQty = s.nextInt();
+				}
+				catch(InputMismatchException e) {
+					isNumber = false;
+					s.nextLine();
+				}
 				
-				for(int i = 0; i < stockList.size(); i++) {
-					if(stockList.get(i).getSym().equals(sellSym)) {
-						investmentType = "stock";
-						index = i;
+				if(isNumber == true) {
+				
+					for(int i = 0; i < stockList.size(); i++) {
+						if(stockList.get(i).getSym().equals(sellSym)) {
+							investmentType = "stock";
+							index = i;
+						}
 					}
-				}
-				for(int i = 0; i < fundList.size(); i++) {
-					if(fundList.get(i).getSym().equals(sellSym)) {
-						investmentType = "fund";
-						index = i;
+					for(int i = 0; i < fundList.size(); i++) {
+						if(fundList.get(i).getSym().equals(sellSym)) {
+							investmentType = "fund";
+							index = i;
+						}
 					}
-				}
-				if(investmentType.equals("stock")) {
-					if(sellQty <= stockList.get(index).getQuantity()) {
-						madeMoney = stockList.get(index).sellQuantity(sellQty, sellPrice);
-						System.out.println("You received $" + madeMoney + " selling " + sellQty + " shares at $" + sellPrice + " a share");
-						if(stockList.get(index).getQuantity() == 0) {
-							stockList.remove(index);
+					if(investmentType.equals("stock")) {
+						if(sellQty <= stockList.get(index).getQuantity()) {
+							madeMoney = stockList.get(index).sellQuantity(sellQty, sellPrice);
+							System.out.println("You received $" + madeMoney + " selling " + sellQty + " shares at $" + sellPrice + " a share");
+							if(stockList.get(index).getQuantity() == 0) {
+								stockList.remove(index);
+							}
+						}
+						else {
+							System.out.println("You are trying to sell more shares than available");
+						}
+					}
+					else if(investmentType.equals("fund")) {
+						if(sellQty <= fundList.get(index).getQuantity()) {
+							madeMoney = fundList.get(index).sellQuantity(sellQty, sellPrice);
+							System.out.println("You received $" + madeMoney + " selling " + sellQty + " shares at $" + sellPrice + " a share");
+							if(fundList.get(index).getQuantity() == 0) {
+								fundList.remove(index);
+							}
+						}
+						else {
+							System.out.println("You are trying to sell more shares than available");
 						}
 					}
 					else {
-						System.out.println("You are trying to sell more shares than available");
+						System.out.println("The investment you are trying to sell does not exist.");
 					}
-				}
-				else if(investmentType.equals("fund")) {
-					if(sellQty <= fundList.get(index).getQuantity()) {
-						madeMoney = fundList.get(index).sellQuantity(sellQty, sellPrice);
-						System.out.println("You received $" + madeMoney + " selling " + sellQty + " shares at $" + sellPrice + " a share");
-						if(fundList.get(index).getQuantity() == 0) {
-							fundList.remove(index);
-						}
-					}
-					else {
-						System.out.println("You are trying to sell more shares than available");
-					}
+					System.out.println();
+					s.nextLine();
+					
 				}
 				else {
-					System.out.println("The investment you are trying to sell does not exist.");
+					System.out.println("Enter nummerical values only for Price and Quantity\n");
 				}
-				System.out.println();
-				s.nextLine();
+				
 			}
 			else if(menuInput.equals("update") || menuInput.equals("u")) {
 				double newPrice = 0;
+				boolean isNumber = true;
+				
 				System.out.println();
 				if(stockList.size() + fundList.size() == 0) {
 					System.out.println("There are no Investments in the Portfolio.");
-					System.out.println("If input hangs press <Enter>");
+					System.out.println("If input hangs, press <Enter>");
 				}
 				else {
 					System.out.println("--- Update all Investment Prices ---");
 					for(int i = 0; i < stockList.size(); i++) {
 						System.out.printf("Update Price for Stock: %s (%s)\n", stockList.get(i).getName(), stockList.get(i).getSym());
 						System.out.print("New Price: ");
-						newPrice = s.nextDouble();
+						try {
+							newPrice = s.nextDouble();
+						}
+						catch(InputMismatchException e) {
+							System.out.println("Enter only nummerical values.");
+							System.out.println("If input hangs, press <Enter>");
+							s.nextLine();
+							isNumber = false;
+							break;
+						}
 						stockList.get(i).updatePrice(newPrice);
 					}
-					for(int i = 0; i < fundList.size(); i++) {
-						System.out.printf("Update Price for Mutual Fund: %s (%s)\n", fundList.get(i).getName(), fundList.get(i).getSym());
-						System.out.print("New Price: ");
-						newPrice = s.nextDouble();
-						fundList.get(i).updatePrice(newPrice);
+					if(isNumber == true) {
+						for(int i = 0; i < fundList.size(); i++) {
+							System.out.printf("Update Price for Mutual Fund: %s (%s)\n", fundList.get(i).getName(), fundList.get(i).getSym());
+							System.out.print("New Price: ");
+							newPrice = s.nextDouble();
+							fundList.get(i).updatePrice(newPrice);
+						}
 					}
 				}
 				System.out.println();
@@ -334,6 +404,9 @@ public class Portfolio {
 							System.out.println("--- Mutual Funds ---");
 						}
 						fundList.get(i).printFund();
+					}
+					if(stockList.size() + fundList.size() == 0) {
+						System.out.println("There are no Investments in the Portfolio.");
 					}
 				}
 				else if(!searchSym.equals("") && searchKeyWord.equals("") && searchPrice.equals("")) {
@@ -400,6 +473,9 @@ public class Portfolio {
 					}
 					if(keyWord == false) {
 						System.out.println("The investment searched for could not be found.");
+					}
+					if(stockList.size() + fundList.size() == 0) {
+						System.out.println("There are no Investments in the Portfolio.");
 					}
 				}
 				else if(searchSym.equals("") && searchKeyWord.equals("") && !searchPrice.equals("")) {
@@ -666,18 +742,280 @@ public class Portfolio {
 									}
 								}
 								else {
-									System.out.println("The investment symbol searched for could not be found.");
+									System.out.println("Incorrect price search format");
 								}
 							}
 						}
 						for(int i = 0; i < fundList.size(); i++) {
 							match = false;
 							if(searchSym.equals(fundList.get(i).getSym())) {
-								if(i == 0) {
-									System.out.println("--- Mutual Funds ---");
+								String[] searchVals;
+								double double1 = 0;
+								double double2 = 0;
+								if(searchPrice.indexOf('-') == -1) {
+									if(fundList.get(i).getPrice() == Double.parseDouble(searchPrice)) {
+										match = true;
+									}
+									if(match == true) {
+										if(i == 0) {
+											System.out.println("--- Mutual Funds ---");
+										}
+										fundList.get(i).printFund();
+										found = true;
+									}
 								}
-								fundList.get(i).printFund();
-								found = true;
+								else if(searchPrice.charAt(0) != '-' && searchPrice.charAt(searchPrice.length() - 1) != '-' && searchPrice.indexOf('-') != -1) {
+									searchVals = searchPrice.split("-");
+									for(String j : searchVals) {
+										if(!j.matches("[1234567890.]+")) {
+											isNum = false;
+										}
+									}
+									if(searchVals.length != 2) {
+										System.out.println("Too many search parameters. Usage: <range1-range2>");
+										isNum = false;
+										break;
+									}
+									if(isNum == true) {
+										double1 = Double.parseDouble(searchVals[0]);
+										double2 = Double.parseDouble(searchVals[1]);
+										if(fundList.get(i).getPrice() >= double1 && fundList.get(i).getPrice() <= double2) {
+											match = true;
+										}
+									}
+									if(match == true) {
+										if(i == 0) {
+											System.out.println("--- Mutual Funds ---");
+										}
+										fundList.get(i).printFund();
+										found = true;
+									}
+								}
+								else if(searchPrice.charAt(0) == '-') {
+									StringBuilder sb = new StringBuilder(searchPrice);
+									sb.deleteCharAt(0);
+									String newPrice = sb.toString();
+									if(fundList.get(i).getPrice() <= Double.parseDouble(newPrice)) {
+										match = true;
+									}
+									if(match == true) {
+										if(i == 0) {
+											System.out.println("--- Mutual Funds ---");
+										}
+										fundList.get(i).printFund();
+										found = true;
+									}
+								}
+								else if(searchPrice.charAt(searchPrice.length() - 1) == '-') {
+									StringBuilder sb = new StringBuilder(searchPrice);
+									sb.deleteCharAt(searchPrice.length() - 1);
+									String newPrice = sb.toString();
+									if(fundList.get(i).getPrice() >= Double.parseDouble(newPrice)) {
+										match = true;
+									}
+									if(match == true) {
+										if(i == 0) {
+											System.out.println("--- Mutual Funds ---");
+										}
+										fundList.get(i).printFund();
+										found = true;
+									}
+								}
+								else {
+									System.out.println("Incorrect price search format");
+								}
+							}	
+						}
+						if(found == false) {
+							System.out.println("The investment searched for could not be found.");
+						}
+					}
+					else {
+						System.out.println("Enter nummerical values only.");
+					}
+				}
+				else if(searchSym.equals("") && !searchKeyWord.equals("") && !searchPrice.equals("")) {
+					String[] splitted;
+					String returnWord;
+					searchKeyWord = searchKeyWord.toLowerCase();
+					splitted = searchKeyWord.split("\\s+");
+					boolean keyWord = true;
+					boolean match = false;
+					boolean isNum = true;
+					
+					if(searchPrice.matches("[1234567890.-]+")) {
+						for(int i = 0; i < stockList.size(); i++) {
+							keyWord = true;
+							match = false;
+							returnWord = stockList.get(i).getName();
+							returnWord = returnWord.toLowerCase();
+							for(String j : splitted) {
+								if(!returnWord.contains(j)) {
+									keyWord = false;
+								}
+							}
+							
+							String[] searchVals;
+							double double1 = 0;
+							double double2 = 0;
+							if(searchPrice.indexOf('-') == -1) {
+								if(stockList.get(i).getPrice() == Double.parseDouble(searchPrice)) {
+									match = true;
+								}
+								if(match == true && keyWord == true) {
+									if(i == 0) {
+										System.out.println("--- Stocks ---");
+									}
+									stockList.get(i).printStock();
+									found = true;
+								}
+							}
+							else if(searchPrice.charAt(0) != '-' && searchPrice.charAt(searchPrice.length() - 1) != '-' && searchPrice.indexOf('-') != -1) {
+								searchVals = searchPrice.split("-");
+								for(String j : searchVals) {
+									if(!j.matches("[1234567890.]+")) {
+										isNum = false;
+									}
+								}
+								if(searchVals.length != 2) {
+									System.out.println("Too many search parameters. Usage: <range1-range2>");
+									isNum = false;
+									break;
+								}
+								if(isNum == true) {
+									double1 = Double.parseDouble(searchVals[0]);
+									double2 = Double.parseDouble(searchVals[1]);
+									if(stockList.get(i).getPrice() >= double1 && stockList.get(i).getPrice() <= double2) {
+										match = true;
+									}
+								}
+								if(match == true && keyWord == true) {
+									if(i == 0) {
+										System.out.println("--- Stocks ---");
+									}
+									stockList.get(i).printStock();
+									found = true;
+								}
+							}
+							else if(searchPrice.charAt(0) == '-') {
+								StringBuilder sb = new StringBuilder(searchPrice);
+								sb.deleteCharAt(0);
+								String newPrice = sb.toString();
+								if(stockList.get(i).getPrice() <= Double.parseDouble(newPrice)) {
+									match = true;
+								}
+								if(match == true && keyWord == true) {
+									if(i == 0) {
+										System.out.println("--- Stocks ---");
+									}
+									stockList.get(i).printStock();
+									found = true;
+								}
+							}
+							else if(searchPrice.charAt(searchPrice.length() - 1) == '-') {
+								StringBuilder sb = new StringBuilder(searchPrice);
+								sb.deleteCharAt(searchPrice.length() - 1);
+								String newPrice = sb.toString();
+								if(stockList.get(i).getPrice() >= Double.parseDouble(newPrice)) {
+									match = true;
+								}
+								if(match == true && keyWord == true) {
+									if(i == 0) {
+										System.out.println("--- Stocks ---");
+									}
+									stockList.get(i).printStock();
+									found = true;
+								}
+							}
+							else {
+								System.out.println("Incorrect price search format");
+							}
+						}
+						for(int i = 0; i < fundList.size(); i++) {
+							keyWord = true;
+							match = false;
+							returnWord = fundList.get(i).getName();
+							returnWord = returnWord.toLowerCase();
+							for(String j : splitted) {
+								if(!returnWord.contains(j)) {
+									keyWord = false;
+								}
+							}
+							
+							String[] searchVals;
+							double double1 = 0;
+							double double2 = 0;
+							if(searchPrice.indexOf('-') == -1) {
+								if(fundList.get(i).getPrice() == Double.parseDouble(searchPrice)) {
+									match = true;
+								}
+								if(match == true && keyWord == true) {
+									if(i == 0) {
+										System.out.println("--- Mutual Funds ---");
+									}
+									fundList.get(i).printFund();
+									found = true;
+								}
+							}
+							else if(searchPrice.charAt(0) != '-' && searchPrice.charAt(searchPrice.length() - 1) != '-' && searchPrice.indexOf('-') != -1) {
+								searchVals = searchPrice.split("-");
+								for(String j : searchVals) {
+									if(!j.matches("[1234567890.]+")) {
+										isNum = false;
+									}
+								}
+								if(searchVals.length != 2) {
+									System.out.println("Too many search parameters. Usage: <range1-range2>");
+									isNum = false;
+									break;
+								}
+								if(isNum == true) {
+									double1 = Double.parseDouble(searchVals[0]);
+									double2 = Double.parseDouble(searchVals[1]);
+									if(fundList.get(i).getPrice() >= double1 && fundList.get(i).getPrice() <= double2) {
+										match = true;
+									}
+								}
+								if(match == true && keyWord == true) {
+									if(i == 0) {
+										System.out.println("--- Mutual Funds ---");
+									}
+									fundList.get(i).printFund();
+									found = true;
+								}
+							}
+							else if(searchPrice.charAt(0) == '-') {
+								StringBuilder sb = new StringBuilder(searchPrice);
+								sb.deleteCharAt(0);
+								String newPrice = sb.toString();
+								if(fundList.get(i).getPrice() <= Double.parseDouble(newPrice)) {
+									match = true;
+								}
+								if(match == true && keyWord == true) {
+									if(i == 0) {
+										System.out.println("--- Mutual Funds ---");
+									}
+									fundList.get(i).printFund();
+									found = true;
+								}
+							}
+							else if(searchPrice.charAt(searchPrice.length() - 1) == '-') {
+								StringBuilder sb = new StringBuilder(searchPrice);
+								sb.deleteCharAt(searchPrice.length() - 1);
+								String newPrice = sb.toString();
+								if(fundList.get(i).getPrice() >= Double.parseDouble(newPrice)) {
+									match = true;
+								}
+								if(match == true && keyWord == true) {
+									if(i == 0) {
+										System.out.println("--- Mutual Funds ---");
+									}
+									fundList.get(i).printFund();
+									found = true;
+								}
+							}
+							else {
+								System.out.println("Incorrect price search format");
 							}
 						}
 						if(found == false) {
@@ -687,7 +1025,211 @@ public class Portfolio {
 					else {
 						System.out.println("Enter nummerical values only.");
 					}
+				}
+				else if(!searchSym.equals("") && !searchKeyWord.equals("") && !searchPrice.equals("")) {
+					String[] splitted;
+					String returnWord;
+					searchKeyWord = searchKeyWord.toLowerCase();
+					splitted = searchKeyWord.split("\\s+");
+					boolean keyWord = true;
+					boolean match = false;
+					boolean isNum = true;
+					boolean symCheck = false;
 					
+					if(searchPrice.matches("[1234567890.-]+")) {
+						for(int i = 0; i < stockList.size(); i++) {
+							keyWord = true;
+							match = false;
+							symCheck = false;
+							
+							if(searchSym.equals(stockList.get(i).getSym())) {
+								symCheck = true;
+							}
+							
+							returnWord = stockList.get(i).getName();
+							returnWord = returnWord.toLowerCase();
+							for(String j : splitted) {
+								if(!returnWord.contains(j)) {
+									keyWord = false;
+								}
+							}
+							
+							String[] searchVals;
+							double double1 = 0;
+							double double2 = 0;
+							if(searchPrice.indexOf('-') == -1) {
+								if(stockList.get(i).getPrice() == Double.parseDouble(searchPrice)) {
+									match = true;
+								}
+								if(match == true && keyWord == true && symCheck == true) {
+									if(i == 0) {
+										System.out.println("--- Stocks ---");
+									}
+									stockList.get(i).printStock();
+									found = true;
+								}
+							}
+							else if(searchPrice.charAt(0) != '-' && searchPrice.charAt(searchPrice.length() - 1) != '-' && searchPrice.indexOf('-') != -1) {
+								searchVals = searchPrice.split("-");
+								for(String j : searchVals) {
+									if(!j.matches("[1234567890.]+")) {
+										isNum = false;
+									}
+								}
+								if(searchVals.length != 2) {
+									System.out.println("Too many search parameters. Usage: <range1-range2>");
+									isNum = false;
+									break;
+								}
+								if(isNum == true) {
+									double1 = Double.parseDouble(searchVals[0]);
+									double2 = Double.parseDouble(searchVals[1]);
+									if(stockList.get(i).getPrice() >= double1 && stockList.get(i).getPrice() <= double2) {
+										match = true;
+									}
+								}
+								if(match == true && keyWord == true && symCheck == true) {
+									if(i == 0) {
+										System.out.println("--- Stocks ---");
+									}
+									stockList.get(i).printStock();
+									found = true;
+								}
+							}
+							else if(searchPrice.charAt(0) == '-') {
+								StringBuilder sb = new StringBuilder(searchPrice);
+								sb.deleteCharAt(0);
+								String newPrice = sb.toString();
+								if(stockList.get(i).getPrice() <= Double.parseDouble(newPrice)) {
+									match = true;
+								}
+								if(match == true && keyWord == true && symCheck == true) {
+									if(i == 0) {
+										System.out.println("--- Stocks ---");
+									}
+									stockList.get(i).printStock();
+									found = true;
+								}
+							}
+							else if(searchPrice.charAt(searchPrice.length() - 1) == '-') {
+								StringBuilder sb = new StringBuilder(searchPrice);
+								sb.deleteCharAt(searchPrice.length() - 1);
+								String newPrice = sb.toString();
+								if(stockList.get(i).getPrice() >= Double.parseDouble(newPrice)) {
+									match = true;
+								}
+								if(match == true && keyWord == true && symCheck == true) {
+									if(i == 0) {
+										System.out.println("--- Stocks ---");
+									}
+									stockList.get(i).printStock();
+									found = true;
+								}
+							}
+							else {
+								System.out.println("Incorrect price search format");
+							}
+						}
+						for(int i = 0; i < fundList.size(); i++) {
+							keyWord = true;
+							match = false;
+							symCheck = false;
+							
+							if(searchSym.equals(fundList.get(i).getSym())) {
+								symCheck = true;
+							}
+							
+							returnWord = fundList.get(i).getName();
+							returnWord = returnWord.toLowerCase();
+							for(String j : splitted) {
+								if(!returnWord.contains(j)) {
+									keyWord = false;
+								}
+							}
+							
+							String[] searchVals;
+							double double1 = 0;
+							double double2 = 0;
+							if(searchPrice.indexOf('-') == -1) {
+								if(fundList.get(i).getPrice() == Double.parseDouble(searchPrice)) {
+									match = true;
+								}
+								if(match == true && keyWord == true && symCheck == true) {
+									if(i == 0) {
+										System.out.println("--- Mutual Funds ---");
+									}
+									fundList.get(i).printFund();
+									found = true;
+								}
+							}
+							else if(searchPrice.charAt(0) != '-' && searchPrice.charAt(searchPrice.length() - 1) != '-' && searchPrice.indexOf('-') != -1) {
+								searchVals = searchPrice.split("-");
+								for(String j : searchVals) {
+									if(!j.matches("[1234567890.]+")) {
+										isNum = false;
+									}
+								}
+								if(searchVals.length != 2) {
+									System.out.println("Too many search parameters. Usage: <range1-range2>");
+									isNum = false;
+									break;
+								}
+								if(isNum == true) {
+									double1 = Double.parseDouble(searchVals[0]);
+									double2 = Double.parseDouble(searchVals[1]);
+									if(fundList.get(i).getPrice() >= double1 && fundList.get(i).getPrice() <= double2) {
+										match = true;
+									}
+								}
+								if(match == true && keyWord == true && symCheck == true) {
+									if(i == 0) {
+										System.out.println("--- Mutual Funds ---");
+									}
+									fundList.get(i).printFund();
+									found = true;
+								}
+							}
+							else if(searchPrice.charAt(0) == '-') {
+								StringBuilder sb = new StringBuilder(searchPrice);
+								sb.deleteCharAt(0);
+								String newPrice = sb.toString();
+								if(fundList.get(i).getPrice() <= Double.parseDouble(newPrice)) {
+									match = true;
+								}
+								if(match == true && keyWord == true && symCheck == true) {
+									if(i == 0) {
+										System.out.println("--- Mutual Funds ---");
+									}
+									fundList.get(i).printFund();
+									found = true;
+								}
+							}
+							else if(searchPrice.charAt(searchPrice.length() - 1) == '-') {
+								StringBuilder sb = new StringBuilder(searchPrice);
+								sb.deleteCharAt(searchPrice.length() - 1);
+								String newPrice = sb.toString();
+								if(fundList.get(i).getPrice() >= Double.parseDouble(newPrice)) {
+									match = true;
+								}
+								if(match == true && keyWord == true && symCheck == true) {
+									if(i == 0) {
+										System.out.println("--- Mutual Funds ---");
+									}
+									fundList.get(i).printFund();
+									found = true;
+								}
+							}
+							else {
+								System.out.println("Incorrect price search format");
+							}
+						}
+						if(found == false) {
+							System.out.println("The investment searched for could not be found.");
+						}
+					}
+					else {
+						System.out.println("Enter nummerical values only.");
+					}
 				}
 				
 				System.out.println();
@@ -695,6 +1237,7 @@ public class Portfolio {
 			else if(menuInput.equals("quit") || menuInput.equals("q")) {
 				System.out.println();
 				menuLoop = false;
+				System.out.println("Thanks for using the Portfolio Program.");
 				System.out.println();
 			}
 			else {
