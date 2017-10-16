@@ -1,16 +1,13 @@
-import java.util.*;
-import java.io.*;
-import java.text.*;
 
 public class MutualFund {
 
 	private String symbol;
 	private String name;
-	private int quantity;
+	private double quantity;
 	private double price;
 	private double bookVal;
 	
-	public MutualFund(String symbol, String name, int quantity, double price, double bookVal) {
+	public MutualFund(String symbol, String name, double quantity, double price, double bookVal) {
 		this.symbol = symbol;
 		this.name = name;
 		this.quantity = quantity;
@@ -19,18 +16,41 @@ public class MutualFund {
 	}
 	
 	public void printFund() {
-		System.out.println();
-		System.out.println("Mutual Funds: ");
-		System.out.println("Mutual Fund Symbol: " + this.symbol);
-		System.out.println("Mutual Fund Name: " + this.name);
-		System.out.println("Mutual Fund Quantity: " + this.quantity);
-		System.out.println("Mutual Fund Price: " + this.price);
-		System.out.println("Mutual Fund bookVal: " + this.bookVal);
+		System.out.println("Mutual Fund Symbol: " + symbol);
+		System.out.println("Mutual Fund Name: " + name);
+		System.out.println("Mutual Fund Quantity: " + quantity);
+		System.out.println("Mutual Fund Price: " + price);
+		System.out.printf("Mutual Fund bookVal: %.2f\n\n", bookVal);
 	}
 	
-	public void addQuantity(int addQuantity) {
+	public void addQuantity(double addQuantity, double newPrice) {
+		bookVal = bookVal + (addQuantity * newPrice);
 		quantity = quantity + addQuantity;
-		bookVal = quantity * price;
+		price = newPrice;
+	}
+	
+	public double sellQuantity(double sellQuantity, double sellPrice) {
+		double moneyMade = 0;
+		
+		price = sellPrice;
+		moneyMade = (sellQuantity * price) - 45.00;
+		bookVal = bookVal * ((quantity - sellQuantity) / quantity);
+		quantity = quantity - sellQuantity;
+		
+		return moneyMade;
+	}
+	
+	public void updatePrice(double newPriceFnc) {
+		price = newPriceFnc;
+	}
+	
+	public double getGain() {
+		double fundGainFnc = 0;
+		double newWorth = 0;
+		
+		newWorth = (price * quantity) - 45.00;
+		fundGainFnc = newWorth - bookVal;
+		return fundGainFnc;
 	}
 	
 	public String getSym() {
@@ -41,6 +61,9 @@ public class MutualFund {
 	}
 	public double getPrice() {
 		return price;
+	}
+	public double getQuantity() {
+		return quantity;
 	}
 	
 }
