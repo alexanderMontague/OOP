@@ -1,0 +1,3 @@
+normalbook-BOOK-Alex-1998-12345-50.0
+textbook-TEXTBOOK-Jay-1999-12345-69.0-Math-0000
+workbook-WORKBOOK-Will-2000-0000-1234.0-400
